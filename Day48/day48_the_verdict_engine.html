@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Path Compass — AI/ML vs Backend vs Data Science vs Cloud</title>
+<style>
+  :root{
+    --ink:#171410;
+    --paper:#f6f3ec;
+    --panel:#ffffff;
+    --line:#e2dccc;
+    --line-strong:#c9c1a8;
+    --brass:#8a6d3b;
+    --brass-light:#c9a869;
+    --pine:#3c5a4a;
+    --pine-light:#e6ede9;
+    --rust:#a5432c;
+    --rust-light:#f4e3dd;
+    --ink-soft:#585144;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --serif: "Source Serif 4", "Iowan Old Style", "Georgia", serif;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(23,20,16,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    padding:0 0 80px;
+  }
+  a{color:var(--brass);}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    border-bottom:2px solid var(--ink);
+    padding:36px 0 26px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"§";font-size:14px;}
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(32px,4.4vw,54px);
+    letter-spacing:-0.01em;
+    margin:0 0 12px;
+    max-width:16ch;
+  }
+  h1 em{font-style:italic;color:var(--brass);}
+  .dek{
+    font-size:16px;
+    color:var(--ink-soft);
+    max-width:62ch;
+    margin:0 0 18px;
+  }
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 22px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+  .meta-row b{color:var(--ink);font-weight:600;}
+
+  /* ---------- LAYOUT ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns: 320px 1fr;
+    gap:34px;
+    margin-top:36px;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- WEIGHT PANEL ---------- */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    box-shadow: 4px 4px 0 rgba(23,20,16,0.06);
+  }
+  .panel-head{
+    padding:16px 18px 14px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .panel-head h2{
+    font-family:var(--serif);
+    font-size:18px;
+    margin:0;
+    font-weight:600;
+  }
+  .reset-btn{
+    font-family:var(--mono);
+    font-size:11px;
+    background:none;
+    border:1px solid var(--line-strong);
+    padding:5px 9px;
+    cursor:pointer;
+    color:var(--ink-soft);
+    transition:.15s;
+  }
+  .reset-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  .weights{padding:14px 18px 20px;}
+  .weight-row{margin-bottom:18px;}
+  .weight-row:last-child{margin-bottom:4px;}
+  .weight-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:13.5px;
+    margin-bottom:6px;
+  }
+  .weight-label .name{font-weight:600;}
+  .weight-label .val{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--brass);
+    min-width:34px;
+    text-align:right;
+  }
+  input[type=range]{
+    -webkit-appearance:none;
+    width:100%;
+    height:4px;
+    background:var(--line-strong);
+    outline:none;
+    border-radius:2px;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--brass);
+    border:2px solid var(--paper);
+    box-shadow:0 0 0 1px var(--brass);
+    cursor:pointer;
+    margin-top:-6px;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:16px;height:16px;border-radius:50%;
+    background:var(--brass);border:2px solid var(--paper);
+    box-shadow:0 0 0 1px var(--brass);cursor:pointer;
+  }
+  .weight-hint{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+  .total-line{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    border-top:1px dashed var(--line-strong);
+    padding-top:12px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .presets{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    padding:0 18px 18px;
+  }
+  .preset-btn{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.02em;
+    background:var(--pine-light);
+    border:1px solid var(--pine);
+    color:var(--pine);
+    padding:5px 9px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .preset-btn:hover{background:var(--pine);color:#fff;}
+
+  /* ---------- RESULTS ---------- */
+  .results-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:14px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .results-head h2{
+    font-family:var(--serif);
+    font-size:20px;
+    margin:0;
+  }
+  .results-head .sub{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    margin-bottom:14px;
+    position:relative;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card.rank-1{border-color:var(--brass);box-shadow:5px 5px 0 rgba(138,109,59,0.18);}
+
+  .card-top{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .rank-badge{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:26px;
+    color:var(--ink-soft);
+    width:38px;
+    flex-shrink:0;
+    text-align:center;
+  }
+  .rank-1 .rank-badge{color:var(--brass);}
+  .card-title-block{flex:1;min-width:0;}
+  .card-title{
+    font-family:var(--serif);
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 2px;
+  }
+  .card-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  .score-block{
+    text-align:right;
+    flex-shrink:0;
+  }
+  .score-num{
+    font-family:var(--mono);
+    font-size:24px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .score-label{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .bar-track{
+    height:6px;
+    background:var(--line);
+    margin:0 18px;
+    position:relative;
+    top:-1px;
+  }
+  .bar-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--brass-light),var(--brass));
+    transition: width .35s ease;
+  }
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:0;
+    padding:14px 18px 18px;
+  }
+  .metric{
+    padding:8px 10px 8px 0;
+    border-left:2px solid var(--line);
+    padding-left:12px;
+  }
+  .metric-name{
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:5px;
+    margin-bottom:3px;
+  }
+  .metric-val{
+    font-size:14.5px;
+    font-weight:600;
+  }
+  .est-flag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:8.5px;
+    letter-spacing:.03em;
+    background:var(--rust-light);
+    color:var(--rust);
+    border:1px solid var(--rust);
+    padding:1px 4px;
+    border-radius:2px;
+    text-transform:uppercase;
+    font-weight:700;
+  }
+
+  /* ---------- COLLAPSIBLES ---------- */
+  .collapsible{
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    margin-top:26px;
+  }
+  .collapsible summary{
+    cursor:pointer;
+    padding:16px 18px;
+    font-family:var(--serif);
+    font-size:17px;
+    font-weight:600;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    list-style:none;
+  }
+  .collapsible summary::-webkit-details-marker{display:none;}
+  .collapsible summary::after{
+    content:"+";
+    font-family:var(--mono);
+    font-size:20px;
+    color:var(--brass);
+    transition:transform .2s;
+  }
+  .collapsible[open] summary::after{content:"–";}
+  .collapsible .body{
+    padding:0 18px 20px;
+    border-top:1px solid var(--line);
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .collapsible .body h4{
+    font-family:var(--sans);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink);
+    margin:18px 0 8px;
+  }
+  .collapsible .body p{margin:8px 0;}
+  .collapsible .body ul{margin:8px 0;padding-left:20px;}
+  .collapsible .body li{margin-bottom:6px;}
+
+  .source-item{
+    border-bottom:1px solid var(--line);
+    padding:10px 0;
+    display:grid;
+    grid-template-columns: 22px 1fr;
+    gap:8px;
+    font-size:13px;
+  }
+  .source-item:last-child{border-bottom:none;}
+  .source-item .idx{
+    font-family:var(--mono);
+    color:var(--brass);
+    font-weight:700;
+  }
+  .source-item .src-name{font-weight:600;color:var(--ink);}
+  .source-item .src-meta{font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+  .source-item a{word-break:break-all;font-size:11.5px;}
+
+  .conflict-box{
+    background:var(--rust-light);
+    border-left:3px solid var(--rust);
+    padding:10px 14px;
+    margin:10px 0;
+    font-size:13px;
+  }
+  .conflict-box b{color:var(--rust);}
+
+  /* ---------- FOOTER / EMPTY STATE ---------- */
+  .empty-state{
+    padding:60px 20px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-family:var(--mono);
+    font-size:13px;
+    border:1px dashed var(--line-strong);
+  }
+  footer.site{
+    margin-top:40px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  ::selection{background:var(--brass-light);color:var(--ink);}
+
+  @media (max-width:520px){
+    .card-top{flex-wrap:wrap;}
+    .score-block{margin-left:54px;text-align:left;}
+    .bar-track{margin:0 18px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Compare &amp; Decide — Career Paths in Tech</div>
+    <h1>Which tech career path is <em>actually</em> the right bet for you?</h1>
+    <p class="dek">Built for CS/IT students weighing AI/ML Engineering, Backend Software Engineering, Data Science, and Cloud Engineering. Adjust the sliders to match what you personally care about — pay, growth, difficulty, risk — and the ranking recalculates live from sourced labor-market data.</p>
+    <div class="meta-row">
+      <span><b>4</b> career paths compared</span>
+      <span><b>6</b> weighted criteria</span>
+      <span><b>US labor-market data</b>, primarily BLS May 2024 / 2024–34 projections</span>
+      <span id="lastUpdated"><b>Compiled</b> July 2026</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- WEIGHTS PANEL -->
+    <aside class="panel" id="weightPanel">
+      <div class="panel-head">
+        <h2>Your priorities</h2>
+        <button class="reset-btn" id="resetBtn">Reset to equal</button>
+      </div>
+      <div class="presets">
+        <button class="preset-btn" data-preset="money">Maximize pay</button>
+        <button class="preset-btn" data-preset="safe">Play it safe</button>
+        <button class="preset-btn" data-preset="easy">Fastest to hire</button>
+        <button class="preset-btn" data-preset="future">Future-proof</button>
+      </div>
+      <div class="weights" id="weights"></div>
+      <div class="total-line" style="padding:0 18px 16px;">
+        <span>Weights auto-normalize</span>
+        <span id="totalWeight">—</span>
+      </div>
+    </aside>
+
+    <!-- RESULTS -->
+    <main>
+      <div class="results-head">
+        <h2>Live ranking</h2>
+        <span class="sub" id="rankSub">Recalculates as you move the sliders</span>
+      </div>
+      <div id="cards"></div>
+    </main>
+  </div>
+
+  <!-- HOW THIS WAS RESEARCHED -->
+  <details class="collapsible" id="researchPanel">
+    <summary>How this was researched — methodology &amp; source conflicts</summary>
+    <div class="body">
+      <p>Every hard number below traces to a named, linked source. Where no single government or survey dataset breaks a metric out cleanly by these four specific job titles, that's disclosed explicitly rather than papered over with an invented figure — those cells carry an <span class="est-flag">Estimate</span> tag in the cards above.</p>
+
+      <h4>Salary</h4>
+      <p>Backend Software Engineer and Data Scientist salaries use the U.S. Bureau of Labor Statistics' Occupational Employment and Wage Statistics survey directly ("Software Developers" and "Data Scientists" occupational codes, May 2024 median annual wage). Neither "AI/ML Engineer" nor "Cloud Engineer" exists as a distinct BLS occupational code as of this data. For AI/ML Engineer, the figure is drawn from an industry analysis citing 2025 median compensation figures compiled from job-market data — flagged as an estimate. For Cloud Engineer, the closest official proxy is BLS "Network and Computer Systems Administrators" ($96,800, May 2024), but this is a conservative floor: it captures traditional on-prem sysadmin roles, not cloud-native titles, which several industry salary trackers (e.g. Robert Half) place noticeably higher. This is flagged as an estimate/proxy in the card.</p>
+
+      <h4>Job growth &amp; annual openings</h4>
+      <p>Backend Software Engineer (+15%, ~129,200 openings/yr) and Data Scientist (+34%, ~23,400 openings/yr) again come straight from BLS Employment Projections, 2024–2034. AI/ML Engineer has no dedicated BLS series; the number shown is anchored to the closest related BLS occupation, "Computer and Information Research Scientists" (+26%, 2023–2033 STEM projections), supplemented with LinkedIn's 2026 Jobs on the Rise report, which ranked AI Engineer the #1 fastest-growing role in the U.S. by job-start volume. Cloud Engineer uses "Network and Computer Systems Administrators" as its BLS proxy, which is actually projected to <b>decline</b> 4% — a genuine data conflict, addressed below.</p>
+
+      <div class="conflict-box">
+        <b>Conflict resolved — Cloud Engineer growth:</b> The only BLS occupational code that maps to "cloud" work (network/systems administration) shows shrinking employment, because that code captures legacy on-prem IT admin roles being displaced by managed cloud services — not cloud engineering itself. Trade-press labor data (CompTIA State of the Tech Workforce 2025) describes this as a hollowing-out-and-shift, not a shrinking field: demand is migrating out of traditional sysadmin titles into cloud, DevOps, and security specializations. We kept the official BLS decline figure visible rather than silently swapping in a rosier number, and flagged the mismatch so it isn't mistaken for a verdict on cloud engineering demand overall.
+      </div>
+
+      <h4>Job postings volume</h4>
+      <p>Indeed Hiring Lab's 2026 labor-market data shows overall U.S. software development postings up almost 15% since February 2025, alongside a broader ~7% decline in postings overall — with the rebound concentrated in senior and AI-titled roles. Indeed does not publish a clean postings count broken out identically across all four of these specific titles, so the relative postings-volume scores in this tool are a qualitative estimate informed by that report, BLS "number of jobs" base figures, and LinkedIn's 2026 rankings — flagged accordingly.</p>
+
+      <h4>Learning difficulty / time to job-ready</h4>
+      <p>This is inherently qualitative and is flagged as an estimate throughout. It's grounded in BLS's stated typical entry-level education per role (bachelor's degree across all four, with BLS explicitly noting employers "require or prefer" a master's or doctoral degree for data scientists) plus the widely reported fact that AI/ML engineering requires backend engineering skills as a prerequisite layer on top of applied math, statistics, and deep learning frameworks — making it the most cumulative path of the four.</p>
+
+      <h4>Remote-work availability</h4>
+      <p>The Stack Overflow 2025 Developer Survey reports 45% of U.S. developers work remotely — the only hard, citable, cross-role U.S. figure available. It does not break this out separately by AI/ML, backend, data science, or cloud titles, so the relative differences shown between the four paths are a qualitative estimate based on general industry observation (cloud/DevOps and data roles skew slightly more distributed than early-career backend roles) and are flagged as such.</p>
+
+      <h4>AI-automation / career-longevity risk</h4>
+      <p>Indeed Hiring Lab's GenAI Skill Transformation Index (2025) and a payroll-data study (cited via SoftwareSeni, using the Eloundou et al. AI-exposure framework) both place software engineering skills in a high-exposure quintile for GenAI-driven transformation — yet Indeed's own 2026 data shows software postings rebounding faster than the market since agentic coding tools launched, complicating a simple "high risk = bad" read. No equivalent named study scores AI/ML Engineer, Data Scientist, and Cloud Engineer against the same index, so those three are qualitative, source-informed estimates and are flagged.</p>
+
+      <h4>What's solid vs. what's an estimate, at a glance</h4>
+      <ul>
+        <li><b>Fully sourced, exact:</b> Backend Software Engineer and Data Scientist — salary, growth rate, annual openings (all BLS).</li>
+        <li><b>Proxy-sourced (real number, imperfect title match):</b> AI/ML Engineer and Cloud Engineer — salary and growth, using the nearest official or named industry figure.</li>
+        <li><b>Qualitative estimate, source-informed:</b> Learning difficulty, remote-work availability, and automation risk for all four roles; postings volume for AI/ML and Cloud.</li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- SOURCES PANEL -->
+  <details class="collapsible" open id="sourcesPanel">
+    <summary>Sources cited</summary>
+    <div class="body" id="sourcesList"></div>
+  </details>
+
+  <footer class="site">
+    <span>Compare &amp; Decide Builder — single-file, no external libraries, no tracking.</span>
+    <span>Not financial or career advice. Verify current figures before making irreversible decisions.</span>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   DATA — every number tagged with a source id and estimate flag
+   ============================================================ */
+const SOURCES = [
+  {id:"bls-swe", name:"BLS — Software Developers, QA Analysts & Testers", meta:"Occupational Outlook Handbook, May 2024 wage data", url:"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"},
+  {id:"bls-ds", name:"BLS — Data Scientists", meta:"Occupational Outlook Handbook, May 2024 wage & 2024–34 projections", url:"https://www.bls.gov/ooh/math/data-scientists.htm"},
+  {id:"bls-netadmin", name:"BLS — Network and Computer Systems Administrators", meta:"Occupational Outlook Handbook, May 2024 wage & 2024–34 projections", url:"https://www.bls.gov/ooh/computer-and-information-technology/network-and-computer-systems-administrators.htm"},
+  {id:"bls-stem", name:"BLS — STEM Occupations poster (incl. Computer & Information Research Scientists)", meta:"Employment Projections program, 2023–33", url:"https://www.bls.gov/k12/teachers/posters/pdf/stem.pdf"},
+  {id:"zenvanriel", name:"Zen van Riel — Future of AI Engineering Jobs", meta:"AI engineer median salary & demand estimate, 2025", url:"https://zenvanriel.com/ai-engineer-blog/future-ai-engineering-jobs-trends-skills-career-growth/"},
+  {id:"linkedin-jotr", name:"LinkedIn — Jobs on the Rise 2026", meta:"AI Engineer ranked #1 fastest-growing U.S. role", url:"https://www.aol.com/news/10-fastest-growing-jobs-us-113645053.html"},
+  {id:"indeed-rebound", name:"Indeed Hiring Lab — AI and Job Postings: From Destruction to Creation?", meta:"Software dev postings +15% since Feb 2025; senior/AI-titled roles driving rebound", url:"https://www.hiringlab.org/2026/07/08/ai-and-job-postings-from-destruction-to-creation/"},
+  {id:"indeed-gsti", name:"Indeed Hiring Lab — AI at Work Report 2025 (GenAI Skill Transformation Index)", meta:"Skill-level exposure to GenAI transformation across US job postings", url:"https://www.hiringlab.org/2025/09/23/ai-at-work-report-2025-how-genai-is-rewiring-the-dna-of-jobs/"},
+  {id:"softwareseni", name:"SoftwareSeni — AI and Junior Developer Employment Decline", meta:"Cites Eloundou et al. AI-exposure framework; software engineering in top exposure quintile", url:"https://www.softwareseni.com/what-the-data-actually-shows-about-ai-and-junior-developer-employment-decline/"},
+  {id:"so-survey", name:"Stack Overflow — 2025 Developer Survey", meta:"45% of US developers report working remotely", url:"https://survey.stackoverflow.co/2025"},
+  {id:"comptia", name:"CompTIA / trade-press synthesis — computer networking career shift", meta:"Traditional sysadmin roles declining as demand migrates to cloud/DevOps/security", url:"https://tradecolleges.org/blog/trade-programs/computer-networking-career-opportunities"},
+  {id:"robert-half", name:"Robert Half Technology Salary Guide (cited via online.fit.edu)", meta:"2024 starting salary range for systems/cloud-adjacent admin roles", url:"https://online.fit.edu/degrees/undergraduate/cis/bachelor-science-computer-information-systems/systems-administrator-career-and-salary-guide/"}
+];
+
+// score = 0-100 "how good is this for a student", higher = better, already normalized per-criterion
+const CRITERIA = [
+  {key:"salary", label:"Median salary (US)", unit:"desc", weight:20},
+  {key:"growth", label:"Job growth outlook", unit:"desc", weight:20},
+  {key:"postings", label:"Open job postings / demand", unit:"desc", weight:15},
+  {key:"difficulty", label:"Speed to job-ready", unit:"desc", weight:15},
+  {key:"longevity", label:"AI-automation resilience", unit:"desc", weight:15},
+  {key:"remote", label:"Remote-work availability", unit:"desc", weight:15}
+];
+
+const ROLES = [
+  {
+    id:"aiml",
+    name:"AI / Machine Learning Engineer",
+    tag:"Builds & deploys ML models, LLM pipelines, AI infrastructure",
+    metrics:{
+      salary:{value:"$138,000+ median (US, 2025 est.)", score:88, estimate:true, src:["zenvanriel"]},
+      growth:{value:"#1 fastest-growing US role (2026); +26% BLS proxy*", score:96, estimate:true, src:["linkedin-jotr","bls-stem"]},
+      postings:{value:"~500K open roles globally; steep 2024–26 rise", score:82, estimate:true, src:["zenvanriel","indeed-rebound"]},
+      difficulty:{value:"Longest path — requires SWE + math/stats + DL stack", score:35, estimate:true, src:["bls-ds"]},
+      longevity:{value:"Builds the automation — lower displacement risk", score:80, estimate:true, src:["indeed-gsti","softwareseni"]},
+      remote:{value:"High — concentrated in remote-friendly tech firms", score:75, estimate:true, src:["so-survey"]}
+    }
+  },
+  {
+    id:"backend",
+    name:"Backend Software Engineer",
+    tag:"Builds and maintains server-side systems, APIs, and databases",
+    metrics:{
+      salary:{value:"$133,080 median (BLS, May 2024)", score:82, estimate:false, src:["bls-swe"]},
+      growth:{value:"+15% projected, 2024–2034 (BLS)", score:58, estimate:false, src:["bls-swe"]},
+      postings:{value:"~129,200 openings/yr avg (BLS); postings +15% since early 2025", score:85, estimate:false, src:["bls-swe","indeed-rebound"]},
+      difficulty:{value:"Bachelor's typical; fastest of the four to entry-level hire", score:75, estimate:true, src:["bls-swe"]},
+      longevity:{value:"Top-quintile GenAI exposure, but postings rebounding fastest", score:45, estimate:true, src:["softwareseni","indeed-rebound"]},
+      remote:{value:"45% of US developers remote (survey-wide average)", score:70, estimate:true, src:["so-survey"]}
+    }
+  },
+  {
+    id:"datasci",
+    name:"Data Scientist",
+    tag:"Extracts insight from data; builds statistical & predictive models",
+    metrics:{
+      salary:{value:"$112,590 median (BLS, May 2024)", score:70, estimate:false, src:["bls-ds"]},
+      growth:{value:"+34% projected, 2024–2034 — 4th fastest US occupation (BLS)", score:92, estimate:false, src:["bls-ds"]},
+      postings:{value:"~23,400 openings/yr avg (BLS)", score:55, estimate:false, src:["bls-ds"]},
+      difficulty:{value:"Bachelor's min; BLS notes master's/PhD often preferred", score:45, estimate:true, src:["bls-ds"]},
+      longevity:{value:"High GenAI exposure for analytics tasks; no dedicated index score", score:55, estimate:true, src:["indeed-gsti"]},
+      remote:{value:"Comparable to broader dev remote rate; analytics work travels well", score:68, estimate:true, src:["so-survey"]}
+    }
+  },
+  {
+    id:"cloud",
+    name:"Cloud Engineer",
+    tag:"Designs, deploys & manages cloud infrastructure (AWS/Azure/GCP)",
+    metrics:{
+      salary:{value:"$96,800 median (BLS sysadmin proxy, May 2024)*", score:55, estimate:true, src:["bls-netadmin","robert-half"]},
+      growth:{value:"BLS proxy shows -4% (legacy sysadmin roles); cloud-specific demand rising*", score:40, estimate:true, src:["bls-netadmin","comptia"]},
+      postings:{value:"~14,300 openings/yr avg (BLS proxy); real cloud titles trending up", score:50, estimate:true, src:["bls-netadmin","comptia"]},
+      difficulty:{value:"Bachelor's typical; certification-driven, fastest cert-based ramp", score:65, estimate:true, src:["bls-netadmin"]},
+      longevity:{value:"Infrastructure/ops less exposed to GenAI than coding-heavy roles", score:70, estimate:true, src:["indeed-gsti"]},
+      remote:{value:"Ops/infra roles trend flexible; comparable to dev-wide average", score:72, estimate:true, src:["so-survey"]}
+    }
+  }
+];
+
+const CRIT_ICONS = {salary:"$", growth:"↗", postings:"◆", difficulty:"⏱", longevity:"⛨", remote:"⌂"};
+
+/* ============================================================
+   RENDER: weight sliders
+   ============================================================ */
+const weightsEl = document.getElementById("weights");
+const weightState = {};
+CRITERIA.forEach(c => weightState[c.key] = c.weight);
+
+function renderWeights(){
+  weightsEl.innerHTML = "";
+  CRITERIA.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "weight-row";
+    row.innerHTML = `
+      <div class="weight-label">
+        <span class="name">${CRIT_ICONS[c.key]} ${c.label}</span>
+        <span class="val" id="val-${c.key}">${weightState[c.key]}</span>
+      </div>
+      <input type="range" min="0" max="100" step="5" value="${weightState[c.key]}" id="slider-${c.key}">
+    `;
+    weightsEl.appendChild(row);
+  });
+  CRITERIA.forEach(c => {
+    document.getElementById(`slider-${c.key}`).addEventListener("input", e => {
+      weightState[c.key] = parseInt(e.target.value,10);
+      document.getElementById(`val-${c.key}`).textContent = weightState[c.key];
+      updateTotals();
+      renderCards();
+    });
+  });
+  updateTotals();
+}
+
+function updateTotals(){
+  const total = Object.values(weightState).reduce((a,b)=>a+b,0);
+  const totalEl = document.getElementById("totalWeight");
+  if(total === 0){
+    totalEl.textContent = "All zero — showing equal weight fallback";
+  } else {
+    totalEl.textContent = `raw total: ${total} → normalized to 100%`;
+  }
+}
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  CRITERIA.forEach(c => weightState[c.key] = 17);
+  renderWeights();
+  renderCards();
+});
+
+const PRESETS = {
+  money:    {salary:40, growth:20, postings:10, difficulty:5,  longevity:10, remote:15},
+  safe:     {salary:10, growth:20, postings:15, difficulty:10, longevity:35, remote:10},
+  easy:     {salary:10, growth:10, postings:20, difficulty:45, longevity:5,  remote:10},
+  future:   {salary:10, growth:30, postings:15, difficulty:5,  longevity:35, remote:5}
+};
+document.querySelectorAll(".preset-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const p = PRESETS[btn.dataset.preset];
+    Object.keys(p).forEach(k => weightState[k] = p[k]);
+    renderWeights();
+    renderCards();
+  });
+});
+
+/* ============================================================
+   RENDER: result cards
+   ============================================================ */
+const cardsEl = document.getElementById("cards");
+
+function computeScores(){
+  const total = Object.values(weightState).reduce((a,b)=>a+b,0);
+  const norm = {};
+  CRITERIA.forEach(c => norm[c.key] = total > 0 ? weightState[c.key]/total : 1/CRITERIA.length);
+
+  return ROLES.map(role => {
+    let score = 0;
+    CRITERIA.forEach(c => {
+      score += role.metrics[c.key].score * norm[c.key];
+    });
+    return {role, score};
+  }).sort((a,b) => b.score - a.score);
+}
+
+function renderCards(){
+  const ranked = computeScores();
+
+  if(ranked.length === 0){
+    cardsEl.innerHTML = `<div class="empty-state">No career paths to compare. Add at least two options to see a ranking.</div>`;
+    return;
+  }
+
+  cardsEl.innerHTML = "";
+  ranked.forEach((r, i) => {
+    const card = document.createElement("div");
+    card.className = "card" + (i === 0 ? " rank-1" : "");
+    const metricsHtml = CRITERIA.map(c => {
+      const m = r.role.metrics[c.key];
+      return `
+        <div class="metric">
+          <div class="metric-name">${CRIT_ICONS[c.key]} ${c.label} ${m.estimate ? '<span class="est-flag">Estimate</span>' : ''}</div>
+          <div class="metric-val">${m.value}</div>
+        </div>
+      `;
+    }).join("");
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="rank-badge">${i+1}</div>
+        <div class="card-title-block">
+          <p class="card-title">${r.role.name}</p>
+          <p class="card-tag">${r.role.tag}</p>
+        </div>
+        <div class="score-block">
+          <div class="score-num">${r.score.toFixed(1)}</div>
+          <div class="score-label">fit score /100</div>
+        </div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.min(r.score,100)}%"></div></div>
+      <div class="card-grid">${metricsHtml}</div>
+    `;
+    cardsEl.appendChild(card);
+  });
+
+  document.getElementById("rankSub").textContent =
+    `Top pick right now: ${ranked[0].role.name} — adjust sliders to see how the order shifts`;
+}
+
+/* ============================================================
+   RENDER: sources panel
+   ============================================================ */
+function renderSources(){
+  const list = document.getElementById("sourcesList");
+  list.innerHTML = `<p style="margin-top:14px;">${SOURCES.length} sources referenced across every data point in this tool. Items marked <span class="est-flag">Estimate</span> in the cards above rely on the proxy or industry-estimate sources below rather than a role-exact government statistic — see the methodology panel for full reasoning.</p>`;
+  SOURCES.forEach((s, i) => {
+    const item = document.createElement("div");
+    item.className = "source-item";
+    item.innerHTML = `
+      <div class="idx">${(i+1).toString().padStart(2,"0")}</div>
+      <div>
+        <div class="src-name">${s.name}</div>
+        <div class="src-meta">${s.meta}</div>
+        <a href="${s.url}" target="_blank" rel="noopener">${s.url}</a>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+try {
+  renderWeights();
+  renderCards();
+  renderSources();
+} catch(err){
+  cardsEl.innerHTML = `<div class="empty-state">Something went wrong rendering the comparison (${err.message}). Try reloading the page.</div>`;
+}
+</script>
+</body>
+</html>
